@@ -47,11 +47,12 @@ export function Reveal({
   const variants: Variants = {
     hidden: reduceMotion
       ? { opacity: 0 }
-      : { opacity: 0, ...getOffset(direction) },
+      : { opacity: 0, scale: 0.98, ...getOffset(direction) },
     visible: {
       opacity: 1,
       x: 0,
       y: 0,
+      scale: 1,
       transition: {
         duration: 0.6,
         delay,

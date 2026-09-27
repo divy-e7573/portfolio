@@ -59,7 +59,7 @@ body {
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-950;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-950;
   }
 
   .btn-primary {
@@ -120,3 +120,42 @@ body {
 .marquee:hover .marquee-track {
   animation-play-state: paused;
 }
+
+/* Subtle animated background blobs (slow drift). GPU-friendly transform only. */
+@keyframes drift-a {
+  0%,
+  100% {
+    transform: translate3d(-50%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-46%, 4%, 0) scale(1.08);
+  }
+}
+
+@keyframes drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-5%, -4%, 0) scale(1.1);
+  }
+}
+
+.bg-blob-a {
+  animation: drift-a 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+.bg-blob-b {
+  animation: drift-b 26s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-blob-a,
+  .bg-blob-b {
+    animation: none !important;
+  }
+}
+

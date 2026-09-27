@@ -8,12 +8,35 @@ import { NAV_ITEMS, RESUME_PATH } from "@/lib/data";
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState<string>(NAV_ITEMS[0]?.href ?? "");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Scroll-spy: highlight the nav link for the section currently in view.
+  useEffect(() => {
+    const sections = NAV_ITEMS.map((item) =>
+      document.getElementById(item.href.slice(1))
+    ).filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(`#${visible.target.id}`);
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: [0, 0.25, 0.5, 1] }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
   }, []);
 
   // Lock body scroll while the mobile menu is open.
@@ -44,16 +67,35 @@ export function Navbar() {
 
           {/* Desktop links */}
           <ul className="hidden items-center gap-1 md:flex">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.href}>
-                <a
-                  href={item.href}
-                  className="rounded-full px-3 py-2 text-sm text-foreground/70 transition-colors hover:text-white"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const isActive = active === item.href;
+              return (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    aria-current={isActive ? "true" : undefined}
+                    className={`relative rounded-full px-3 py-2 text-sm transition-colors ${
+                      isActive
+                        ? "text-white"
+                        : "text-foreground/70 hover:text-white"
+                    }`}
+                  >
+                    {item.label}
+                    {isActive ? (
+                      <motion.span
+                        layoutId="nav-active"
+                        className="absolute inset-x-2.5 -bottom-0.5 h-px bg-accent-gradient"
+                        transition={{
+                          type: "spring",
+                          stiffness: 380,
+                          damping: 30,
+                        }}
+                      />
+                    ) : null}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
 
           <div className="hidden md:block">
@@ -90,17 +132,25 @@ export function Navbar() {
             className="border-b border-white/[0.06] bg-surface-950/95 backdrop-blur-md md:hidden"
           >
             <ul className="container-content flex flex-col py-4">
-              {NAV_ITEMS.map((item) => (
-                <li key={item.href}>
-                  <a
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="block rounded-lg px-3 py-3 text-base text-foreground/80 transition-colors hover:bg-white/5 hover:text-white"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
+              {NAV_ITEMS.map((item) => {
+                const isActive = active === item.href;
+                return (
+                  <li key={item.href}>
+                    <a
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      aria-current={isActive ? "true" : undefined}
+                      className={`block rounded-lg px-3 py-3 text-base transition-colors hover:bg-white/5 hover:text-white ${
+                        isActive
+                          ? "bg-white/[0.04] text-white"
+                          : "text-foreground/80"
+                      }`}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                );
+              })}
               <li className="mt-2 px-3">
                 <a
                   href={RESUME_PATH}
