@@ -1,18 +1,9 @@
-import { Trophy } from "lucide-react";
+import { Trophy, Users } from "lucide-react";
 import { SectionHeading } from "./ui/SectionHeading";
 import { Reveal } from "./ui/Reveal";
+import { ACHIEVEMENTS, ACHIEVEMENT_METRICS } from "@/lib/data";
 
-/**
- * Achievements / recognitions. Add real achievements here. Left empty until
- * real entries are added.
- */
-export type Achievement = {
-  title: string;
-  detail: string;
-  date?: string;
-};
-
-const ACHIEVEMENTS: Achievement[] = [];
+const achievementIcons = [Trophy, Users];
 
 export function Achievements() {
   return (
@@ -21,24 +12,46 @@ export function Achievements() {
         <SectionHeading
           eyebrow="Achievements"
           title="Milestones & recognition"
-          description="Highlights from competitions, contributions, and standout moments along the way."
+          description="A snapshot of progress across problem-solving, academics, and community involvement."
         />
 
-        {ACHIEVEMENTS.length > 0 ? (
-          <div className="grid gap-4 sm:grid-cols-2">
-            {ACHIEVEMENTS.map((achievement, i) => (
-              <Reveal key={achievement.title} delay={i * 0.06}>
-                <div className="surface-card flex gap-4 p-5">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-accent-soft">
-                    <Trophy size={18} />
+        {/* Large metric tiles */}
+        <div className="grid gap-4 sm:grid-cols-3">
+          {ACHIEVEMENT_METRICS.map((metric, i) => (
+            <Reveal key={metric.label} delay={i * 0.08}>
+              <div className="surface-card group relative overflow-hidden p-8 text-center transition-all duration-300 hover:-translate-y-1 hover:border-accent/30">
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-accent/[0.07] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                />
+                <div className="gradient-text text-4xl font-bold tracking-tight sm:text-5xl">
+                  {metric.value}
+                </div>
+                <div className="mt-2 font-mono text-xs uppercase tracking-[0.18em] text-foreground/50">
+                  {metric.label}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* Achievement detail cards */}
+        <div className="grid gap-4 sm:grid-cols-2">
+          {ACHIEVEMENTS.map((achievement, i) => {
+            const Icon = achievementIcons[i % achievementIcons.length];
+            return (
+              <Reveal key={achievement.title} delay={i * 0.08}>
+                <div className="surface-card group flex h-full gap-4 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/30">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-accent-soft">
+                    <Icon size={20} />
                   </div>
                   <div className="flex flex-col gap-1">
                     <h3 className="font-medium text-white">
                       {achievement.title}
                     </h3>
-                    {achievement.date ? (
+                    {achievement.period ? (
                       <span className="font-mono text-xs text-foreground/40">
-                        {achievement.date}
+                        {achievement.period}
                       </span>
                     ) : null}
                     <p className="text-sm leading-relaxed text-foreground/60">
@@ -47,25 +60,9 @@ export function Achievements() {
                   </div>
                 </div>
               </Reveal>
-            ))}
-          </div>
-        ) : (
-          <Reveal>
-            <div className="surface-card flex flex-col items-center gap-4 px-6 py-16 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-accent-soft">
-                <Trophy size={22} />
-              </div>
-              <div className="flex flex-col gap-1">
-                <p className="font-medium text-white">
-                  Achievements coming soon
-                </p>
-                <p className="max-w-md text-sm text-foreground/60">
-                  Notable milestones and recognitions will be featured here.
-                </p>
-              </div>
-            </div>
-          </Reveal>
-        )}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

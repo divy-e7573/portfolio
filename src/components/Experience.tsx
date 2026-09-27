@@ -1,19 +1,7 @@
-import { Briefcase } from "lucide-react";
+import { GraduationCap, Check } from "lucide-react";
 import { SectionHeading } from "./ui/SectionHeading";
 import { Reveal } from "./ui/Reveal";
-
-/**
- * Experience / training timeline entries. Add real roles, internships, or
- * training programs here. Left empty until real entries are added.
- */
-export type ExperienceEntry = {
-  role: string;
-  organization: string;
-  period: string;
-  description: string;
-};
-
-const EXPERIENCE: ExperienceEntry[] = [];
+import { EXPERIENCE } from "@/lib/data";
 
 export function Experience() {
   return (
@@ -22,51 +10,58 @@ export function Experience() {
         <SectionHeading
           eyebrow="Experience & Training"
           title="Where I've been learning and building"
-          description="Internships, training, and hands-on experience that shaped how I build software."
+          description="Training and hands-on experience that shaped how I build software."
         />
 
-        {EXPERIENCE.length > 0 ? (
-          <ol className="relative flex flex-col gap-8 border-l border-white/[0.08] pl-6">
-            {EXPERIENCE.map((entry, i) => (
-              <Reveal key={`${entry.role}-${entry.organization}`} delay={i * 0.06}>
-                <li className="relative">
-                  <span className="absolute -left-[31px] top-1.5 h-3 w-3 rounded-full border-2 border-accent bg-surface-950" />
-                  <div className="flex flex-col gap-1">
-                    <span className="font-mono text-xs text-foreground/50">
+        <ol className="relative flex flex-col gap-8 border-l border-white/[0.08] pl-6 sm:pl-8">
+          {EXPERIENCE.map((entry, i) => (
+            <Reveal key={`${entry.role}-${entry.organization}`} delay={i * 0.08}>
+              <li className="relative">
+                {/* Timeline node */}
+                <span className="absolute -left-[31px] top-1 flex h-4 w-4 items-center justify-center rounded-full border-2 border-accent bg-surface-950 sm:-left-[39px]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent-soft" />
+                </span>
+
+                <div className="surface-card group p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/30">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-accent-soft">
+                        <GraduationCap size={18} />
+                      </div>
+                      <div className="flex flex-col gap-0.5">
+                        <h3 className="text-lg font-semibold text-white">
+                          {entry.role}
+                        </h3>
+                        <span className="text-sm text-accent-soft">
+                          {entry.organization}
+                        </span>
+                      </div>
+                    </div>
+                    <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 font-mono text-xs text-foreground/50">
                       {entry.period}
                     </span>
-                    <h3 className="text-lg font-medium text-white">
-                      {entry.role}
-                    </h3>
-                    <span className="text-sm text-accent-soft">
-                      {entry.organization}
-                    </span>
-                    <p className="mt-1 text-sm leading-relaxed text-foreground/60">
-                      {entry.description}
-                    </p>
                   </div>
-                </li>
-              </Reveal>
-            ))}
-          </ol>
-        ) : (
-          <Reveal>
-            <div className="surface-card flex flex-col items-center gap-4 px-6 py-16 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-accent-soft">
-                <Briefcase size={22} />
-              </div>
-              <div className="flex flex-col gap-1">
-                <p className="font-medium text-white">
-                  Experience details coming soon
-                </p>
-                <p className="max-w-md text-sm text-foreground/60">
-                  This section will highlight training programs and hands-on
-                  experience as they&apos;re added.
-                </p>
-              </div>
-            </div>
-          </Reveal>
-        )}
+
+                  <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
+                    {entry.points.map((point) => (
+                      <li
+                        key={point}
+                        className="flex gap-2 text-sm leading-relaxed text-foreground/70"
+                      >
+                        <Check
+                          size={15}
+                          className="mt-0.5 shrink-0 text-accent-soft"
+                          aria-hidden
+                        />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            </Reveal>
+          ))}
+        </ol>
       </div>
     </section>
   );

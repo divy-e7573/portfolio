@@ -93,4 +93,30 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+  .marquee-track {
+    animation: none !important;
+  }
+  /* Reduced motion: let users scroll the certificate row manually. */
+  .marquee {
+    overflow-x: auto !important;
+  }
+}
+
+/* Infinite horizontal marquee (certificate showcase) */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-scroll 45s linear infinite;
+  width: max-content;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
 }

@@ -1,21 +1,61 @@
 import { BadgeCheck } from "lucide-react";
+import Image from "next/image";
 import { SectionHeading } from "./ui/SectionHeading";
 import { Reveal } from "./ui/Reveal";
+import { CERTIFICATES, type Certificate } from "@/lib/data";
 
-/**
- * Certificates. Add real certificates here. Left empty until real entries are
- * added.
- */
-export type Certificate = {
-  title: string;
-  issuer: string;
-  date?: string;
-  url?: string;
-};
+function CertificateCard({ certificate }: { certificate: Certificate }) {
+  return (
+    <div className="group relative flex w-[300px] shrink-0 flex-col overflow-hidden rounded-2xl border border-white/[0.06] bg-surface-850/60 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/40 hover:shadow-[0_0_0_1px_rgba(99,102,241,0.25),0_24px_48px_-20px_rgba(99,102,241,0.35)] sm:w-[340px]">
+      {/* Image or designed fallback header */}
+      {certificate.image ? (
+        <div className="relative h-40 w-full overflow-hidden border-b border-white/[0.06]">
+          <Image
+            src={certificate.image}
+            alt={`${certificate.title} certificate`}
+            fill
+            className="object-cover"
+            sizes="340px"
+          />
+        </div>
+      ) : (
+        <div className="relative flex h-40 items-center justify-center overflow-hidden border-b border-white/[0.06] bg-gradient-to-br from-accent/[0.12] via-surface-800 to-accent-cyan/[0.08]">
+          <BadgeCheck
+            size={44}
+            className="text-accent-soft/80"
+            aria-hidden
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0 opacity-[0.06]"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)",
+              backgroundSize: "24px 24px",
+            }}
+          />
+        </div>
+      )}
 
-const CERTIFICATES: Certificate[] = [];
+      <div className="flex flex-1 flex-col gap-2 p-5">
+        <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-accent-soft">
+          {certificate.issuer}
+        </span>
+        <h3 className="text-sm font-medium leading-snug text-white">
+          {certificate.title}
+        </h3>
+        <span className="mt-auto font-mono text-xs text-foreground/40">
+          {certificate.date}
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export function Certificates() {
+  // Duplicate the list so the marquee can loop seamlessly.
+  const loop = [...CERTIFICATES, ...CERTIFICATES];
+
   return (
     <section id="certificates" className="scroll-mt-20 py-24 sm:py-32">
       <div className="container-content flex flex-col gap-12">
@@ -24,46 +64,30 @@ export function Certificates() {
           title="Courses & credentials"
           description="Certifications and courses that have strengthened my skills."
         />
-
-        {CERTIFICATES.length > 0 ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {CERTIFICATES.map((cert, i) => (
-              <Reveal key={cert.title} delay={i * 0.06}>
-                <div className="surface-card flex h-full flex-col gap-3 p-5">
-                  <BadgeCheck size={20} className="text-accent-soft" />
-                  <div className="flex flex-col gap-1">
-                    <h3 className="font-medium text-white">{cert.title}</h3>
-                    <span className="text-sm text-foreground/60">
-                      {cert.issuer}
-                    </span>
-                    {cert.date ? (
-                      <span className="font-mono text-xs text-foreground/40">
-                        {cert.date}
-                      </span>
-                    ) : null}
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        ) : (
-          <Reveal>
-            <div className="surface-card flex flex-col items-center gap-4 px-6 py-16 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-accent-soft">
-                <BadgeCheck size={22} />
-              </div>
-              <div className="flex flex-col gap-1">
-                <p className="font-medium text-white">
-                  Certificates coming soon
-                </p>
-                <p className="max-w-md text-sm text-foreground/60">
-                  Certifications and completed courses will be listed here.
-                </p>
-              </div>
-            </div>
-          </Reveal>
-        )}
       </div>
+
+      <Reveal>
+        {/* Full-bleed marquee. Manual scroll fallback keeps it accessible. */}
+        <div className="marquee group relative overflow-hidden">
+          {/* Edge fade masks */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-24 bg-gradient-to-r from-surface-950 to-transparent sm:block"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-24 bg-gradient-to-l from-surface-950 to-transparent sm:block"
+          />
+
+          <ul className="marquee-track flex gap-6 px-6 py-4">
+            {loop.map((certificate, i) => (
+              <li key={`${certificate.title}-${i}`} aria-hidden={i >= CERTIFICATES.length}>
+                <CertificateCard certificate={certificate} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Reveal>
     </section>
   );
 }

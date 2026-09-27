@@ -196,3 +196,94 @@ export const PROJECTS: Project[] = [
     liveUrl: null,
   },
 ];
+
+export type ExperienceEntry = {
+  role: string;
+  organization: string;
+  period: string;
+  points: string[];
+};
+
+export const EXPERIENCE: ExperienceEntry[] = [
+  {
+    role: "Artificial Intelligence: From Basics to Agentic AI",
+    organization: "Lovely Professional University",
+    period: "June 2026 – July 2026",
+    points: [
+      "Learned core AI concepts including embeddings, vector databases and prompt context.",
+      "Gained practical experience integrating AI models into web applications.",
+      "Developed a full-stack AI Chat Assistant using the MERN stack.",
+      "Built a RAG pipeline for uploaded documents and context-aware AI responses.",
+      "Used MongoDB for conversation storage and ChromaDB for vector search.",
+    ],
+  },
+];
+
+export type Metric = {
+  value: string;
+  label: string;
+};
+
+export const ACHIEVEMENT_METRICS: Metric[] = [
+  { value: "350+", label: "DSA Problems" },
+  { value: "8.91", label: "CGPA" },
+  { value: "2028", label: "Expected Graduation" },
+];
+
+export type Achievement = {
+  title: string;
+  detail: string;
+  period?: string;
+};
+
+export const ACHIEVEMENTS: Achievement[] = [
+  {
+    title: "350+ DSA Problems Solved",
+    detail:
+      "Solved 350+ problems across LeetCode and GeeksforGeeks in Data Structures and Algorithms.",
+  },
+  {
+    title: "Event Manager — Coding Blocks Club",
+    period: "August 2024 – March 2025",
+    detail:
+      "Supported event planning and communication for student-led events.",
+  },
+];
+
+export type Certificate = {
+  title: string;
+  issuer: string;
+  date: string;
+  /**
+   * Optional image, e.g. "/certificates/oracle.png". Drop files into
+   * /public/certificates/ and set this path. Falls back to a designed card.
+   */
+  image: string | null;
+};
+
+export const CERTIFICATES: Certificate[] = [
+  {
+    title: "Oracle Data Platform 2025 Certified Foundations Associate",
+    issuer: "Oracle",
+    date: "September 2026",
+    image: null,
+  },
+  {
+    title: "Decode DSA with C++",
+    issuer: "PW Skills",
+    date: "February 2026",
+    image: null,
+  },
+  {
+    title: "Web Development | React",
+    issuer: "Coding Ninjas",
+    date: "March 2025",
+    image: null,
+  },
+  {
+    title: "Java Programming",
+    issuer: "Coding Ninjas",
+    date: "August 2025",
+    image: null,
+  },
+];
