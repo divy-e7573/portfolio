@@ -21,7 +21,7 @@ npm run dev      # http://localhost:3000
 
 The site is structured so real content drops straight into typed arrays — the layouts and empty states adapt automatically:
 
-- **Resume** — add your PDF at `public/Divye_Maingi_Resume.pdf` so the "Download Resume" buttons work.
+- **Resume** — add your PDF at `public/resume.pdf` so the "Download Resume" buttons work.
 - **Projects** — fill the `PROJECTS` array in [src/components/Projects.tsx](src/components/Projects.tsx).
 - **Experience** — fill the `EXPERIENCE` array in [src/components/Experience.tsx](src/components/Experience.tsx).
 - **Achievements** — fill the `ACHIEVEMENTS` array in [src/components/Achievements.tsx](src/components/Achievements.tsx).

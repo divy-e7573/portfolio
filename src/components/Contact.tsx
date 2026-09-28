@@ -1,9 +1,7 @@
-"use client";
-
-import { Github, Linkedin, Mail, ArrowUpRight } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowUpRight, Phone } from "lucide-react";
 import { SectionHeading } from "./ui/SectionHeading";
 import { Reveal } from "./ui/Reveal";
-import { CONTACT_EMAIL } from "@/lib/data";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/data";
 
 const channels = [
   {
@@ -71,10 +69,19 @@ export function Contact() {
             </div>
 
             <Reveal delay={0.1}>
-              <a href={`mailto:${CONTACT_EMAIL}`} className="btn-primary">
-                <Mail size={16} />
-                Say hello
-              </a>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <a href={`mailto:${CONTACT_EMAIL}`} className="btn-primary">
+                  <Mail size={16} />
+                  Say hello
+                </a>
+                <a
+                  href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
+                  className="inline-flex items-center gap-2 text-sm text-foreground/45 transition-colors hover:text-foreground/70"
+                >
+                  <Phone size={14} />
+                  {CONTACT_PHONE}
+                </a>
+              </div>
             </Reveal>
           </div>
         </div>

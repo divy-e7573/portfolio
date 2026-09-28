@@ -46,7 +46,8 @@ export const SOCIALS: SocialLink[] = [
 ];
 
 export const CONTACT_EMAIL = "divyemaingi88@gmail.com";
-export const RESUME_PATH = "/Divye_Maingi_Resume.pdf";
+export const CONTACT_PHONE = "+91 7901842930";
+export const RESUME_PATH = "/resume.pdf";
 
 export type SkillCategory = {
   title: string;

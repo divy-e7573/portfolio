@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -14,26 +14,64 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const SITE_URL = "https://divye.vercel.app";
+const TITLE = "Divye Maingi | Full Stack Web Developer";
+const DESCRIPTION =
+  "Divye Maingi is a Full Stack Web Developer and Computer Science student at Lovely Professional University, building modern full-stack and AI-powered web applications with React, Next.js, Node.js and TypeScript.";
+
 export const metadata: Metadata = {
-  title: "Divye Maingi — Full Stack Web Developer",
-  description:
-    "Portfolio of Divye Maingi, a Full Stack Web Developer and Computer Science student building modern, AI-powered web applications.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: TITLE,
+    template: "%s | Divye Maingi",
+  },
+  description: DESCRIPTION,
+  applicationName: "Divye Maingi Portfolio",
   keywords: [
     "Divye Maingi",
     "Full Stack Developer",
+    "Full Stack Web Developer",
     "Web Developer",
     "React",
     "Next.js",
+    "Node.js",
     "TypeScript",
+    "MERN",
     "Portfolio",
+    "Lovely Professional University",
   ],
-  authors: [{ name: "Divye Maingi" }],
-  openGraph: {
-    title: "Divye Maingi — Full Stack Web Developer",
-    description:
-      "Portfolio of Divye Maingi, a Full Stack Web Developer building modern, AI-powered web applications.",
-    type: "website",
+  authors: [{ name: "Divye Maingi", url: SITE_URL }],
+  creator: "Divye Maingi",
+  alternates: {
+    canonical: "/",
   },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "Divye Maingi",
+    title: TITLE,
+    description: DESCRIPTION,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+    },
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#08090c",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
@@ -41,7 +79,15 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        <a
+          href="#home"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[200] focus:rounded-lg focus:bg-surface-800 focus:px-4 focus:py-2 focus:text-sm focus:text-white focus:outline-none focus:ring-2 focus:ring-accent/60"
+        >
+          Skip to content
+        </a>
+        {children}
+      </body>
     </html>
   );
 }
