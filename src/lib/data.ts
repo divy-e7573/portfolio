@@ -267,24 +267,24 @@ export const CERTIFICATES: Certificate[] = [
     title: "Oracle Data Platform 2025 Certified Foundations Associate",
     issuer: "Oracle",
     date: "September 2026",
-    image: null,
+    image: "/certificates/oracle.png",
   },
   {
     title: "Decode DSA with C++",
     issuer: "PW Skills",
     date: "February 2026",
-    image: null,
+    image: "/certificates/dsa_cpp.jpg",
   },
   {
     title: "Web Development | React",
     issuer: "Coding Ninjas",
     date: "March 2025",
-    image: null,
+    image: "/certificates/react.png",
   },
   {
     title: "Java Programming",
     issuer: "Coding Ninjas",
     date: "August 2025",
-    image: null,
+    image: "/certificates/java_f.jpg",
   },
 ];
